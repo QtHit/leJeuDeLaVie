@@ -10,6 +10,7 @@ public:
     zone (QWidget *parent=nullptr);
     int envie;
     int envieGen;
+    void naissance();
 private slots:
     void vie();
 };

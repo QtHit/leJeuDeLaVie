@@ -14,7 +14,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    zone* tableau[30][30];
+    int taille_i;
+    int taille_j;
+    zone* tableau[100][100];
     QPushButton* it;
     QPushButton* go;
     QPushButton* stop;
@@ -27,6 +29,8 @@ private slots:
     void gen();
     void infini();
     void nettoyage();
+    void tempo();
+    void canon();
 signals:
     void fin();
 };
