@@ -11,6 +11,7 @@ public:
     int envie;
     int envieGen;
     void naissance();
+    void mort();
 private slots:
     void vie();
 };

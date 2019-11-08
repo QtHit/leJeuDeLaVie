@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 #include "zone.h"
 #include <QMainWindow>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,21 +17,27 @@ public:
     ~MainWindow();
     int taille_i;
     int taille_j;
-    zone* tableau[100][100];
+    zone* tableau[160][160];
     QPushButton* it;
     QPushButton* go;
     QPushButton* stop;
     QPushButton* clean;
+    QPushButton* quitter;
+    QPushButton* canonB;
+    QPushButton* moulinB;
+    QTimer *updateTimer;
 private:
     void creation();
     void generation();
     Ui::MainWindow *ui;
+    void moulin(int deb_i,int deb_j);
 private slots:
     void gen();
-    void infini();
+    void goinfini();
+    void stopinfini();
     void nettoyage();
-    void tempo();
     void canon();
+    void moulingen();
 signals:
     void fin();
 };

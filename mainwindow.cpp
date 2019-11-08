@@ -8,11 +8,11 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    taille_i=40;
-    taille_j=80;
+    taille_i=49;
+    taille_j=65;
 
     ui->setupUi(this);
-    this->resize(2000,1000);
+    this->resize(1000,1000);
 
     it=new QPushButton("Itération",this);
     it->move(0,taille_i*20);
@@ -26,20 +26,33 @@ MainWindow::MainWindow(QWidget *parent)
     stop->move(300,taille_i*20);
     stop->resize(100,40);
 
-    clean=new QPushButton("clean",this);
+    clean=new QPushButton("Clean",this);
     clean->move(400,taille_i*20);
     clean->resize(200,40);
 
+    canonB=new QPushButton("Canon",this);
+    canonB->move(600,taille_i*20);
+    canonB->resize(200,40);
+
+    moulinB=new QPushButton("Moulin",this);
+    moulinB->move(800,taille_i*20);
+    moulinB->resize(200,40);
+
+    quitter=new QPushButton("Quitter",this);
+    quitter->move(1000,taille_i*20);
+    quitter->resize(280,40);
+
     creation();
 
-    connect(this->it,SIGNAL(clicked()),this,SLOT(gen()));
-    connect(this->go,SIGNAL(clicked()),this,SLOT(infini()));
-    connect(this,SIGNAL(fin()),this,SLOT(infini()));
-    connect(this,SIGNAL(fin()),this,SLOT(tempo()));
-    connect(this->clean,SIGNAL(clicked()),this,SLOT(nettoyage()));
-    connect(this->go,SIGNAL(clicked()),this,SLOT(tempo()));
-
-    connect(this->stop,SIGNAL(clicked(bool)),this,SLOT(canon()));
+    updateTimer = new QTimer(this);
+    connect(updateTimer, SIGNAL(timeout()), this, SLOT(gen()));
+    connect(go,SIGNAL(clicked(bool)),this,SLOT(goinfini()));
+    connect(stop,SIGNAL(clicked(bool)),this,SLOT(stopinfini()));
+    connect(it,SIGNAL(clicked()),this,SLOT(gen()));
+    connect(clean,SIGNAL(clicked()),this,SLOT(nettoyage()));
+    connect(quitter,SIGNAL(clicked(bool)),this,SLOT(close()));
+    connect(canonB,SIGNAL(clicked(bool)),this,SLOT(canon()));
+    connect(moulinB,SIGNAL(clicked(bool)),this,SLOT(moulingen()));
 }
 
 MainWindow::~MainWindow()
@@ -65,6 +78,16 @@ void MainWindow::creation()
 void MainWindow::gen()
 {
     generation();
+}
+
+void MainWindow::goinfini()
+{
+    updateTimer->start(500);
+}
+
+void MainWindow::stopinfini()
+{
+    updateTimer->stop();
 }
 
 void MainWindow::generation()
@@ -114,13 +137,6 @@ void MainWindow::generation()
     }
 }
 
-
-void MainWindow::infini()
-{
-    generation();
-}
-
-
 void MainWindow::nettoyage()
 {
     for(int i=0;i<taille_i;i++)
@@ -133,12 +149,6 @@ void MainWindow::nettoyage()
             tableau[i][j]->setPalette(QColor("white"));
         }
     }
-}
-
-void MainWindow::tempo()
-{
-    QThread::msleep(200);
-    emit fin();
 }
 
 void MainWindow::canon()
@@ -166,3 +176,43 @@ void MainWindow::canon()
     tableau[2][34]->naissance();tableau[3][34]->naissance();tableau[2][35]->naissance();tableau[3][35]->naissance();
 }
 
+void MainWindow::moulingen()
+{
+    moulin(10,10);
+    moulin(10,25);
+    moulin(10,40);
+    moulin(25,10);
+    moulin(25,25);
+    moulin(25,40);
+}
+
+void MainWindow::moulin(int deb_i,int deb_j)
+{
+
+    for (int i=deb_i;i<deb_i+9;i++)
+    {
+        for (int j=deb_j;j<deb_j+9;j++)
+        {
+            tableau[i][j]->naissance();
+        }
+    }
+
+    for (int i=deb_i+2;i<deb_i+7;i++)
+    {
+        for (int j=deb_j+2;j<deb_j+7;j++)
+        {
+            tableau[i][j]->mort();
+        }
+    }
+
+    tableau[deb_i][deb_j+6]->mort();
+    tableau[deb_i+1][deb_j+6]->mort();
+    tableau[deb_i+2][deb_j]->mort();
+    tableau[deb_i+2][deb_j+1]->mort();
+
+    tableau[deb_i+7][deb_j+2]->mort();
+    tableau[deb_i+8][deb_j+2]->mort();
+    tableau[deb_i+6][deb_j+7]->mort();
+    tableau[deb_i+6][deb_j+8]->mort();
+
+}

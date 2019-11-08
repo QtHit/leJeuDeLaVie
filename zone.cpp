@@ -14,6 +14,13 @@ void zone::naissance()
     this->setText("X");
 }
 
+void zone::mort()
+{
+    this->setText("");
+    this->setPalette(QColor("white"));
+    this->envie=0;
+}
+
 void zone::vie()
 {
     this->setText("X");
