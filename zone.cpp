@@ -17,7 +17,7 @@ void zone::naissance()
 void zone::mort()
 {
     this->setText("");
-    this->setPalette(QColor("white"));
+    this->setPalette(QColor("green"));
     this->envie=0;
 }
 

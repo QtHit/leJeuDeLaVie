@@ -3,16 +3,18 @@
 #include "ui_mainwindow.h"
 #include "zone.h"
 #include <QThread>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    taille_i=49;
-    taille_j=65;
+
+    taille_i=40;
+    taille_j=80;
 
     ui->setupUi(this);
-    this->resize(1000,1000);
+    this->resize(taille_j*20+2,taille_i*20);
 
     it=new QPushButton("Itération",this);
     it->move(0,taille_i*20);
@@ -71,6 +73,7 @@ void MainWindow::creation()
             tableau[i][j]->move(j*20,i*20);
             tableau[i][j]->envie=0;
             tableau[i][j]->envieGen=0;
+            tableau[i][j]->setPalette(QColor("green"));
         }
     }
 }
@@ -131,7 +134,7 @@ void MainWindow::generation()
             if (tableau[i][j]->envie == 0)
             {
                 tableau[i][j]->setText("");
-                tableau[i][j]->setPalette(QColor("white"));
+                tableau[i][j]->setPalette(QColor("green"));
             }
         }
     }
@@ -146,7 +149,7 @@ void MainWindow::nettoyage()
             tableau[i][j]->envie=0;
             tableau[i][j]->envieGen=0;
             tableau[i][j]->setText("");
-            tableau[i][j]->setPalette(QColor("white"));
+            tableau[i][j]->setPalette(QColor("green"));
         }
     }
 }
@@ -154,36 +157,35 @@ void MainWindow::nettoyage()
 void MainWindow::canon()
 {
     tableau[4][0]->naissance(); tableau[5][0]->naissance(); tableau[4][1]->naissance(); tableau[5][1]->naissance();
-
     tableau[4][10]->naissance(); tableau[5][10]->naissance(); tableau[6][10]->naissance();
-
     tableau[3][11]->naissance(); tableau[7][11]->naissance();
-
     tableau[2][12]->naissance(); tableau[2][13]->naissance(); tableau[8][12]->naissance(); tableau[8][13]->naissance();
-
     tableau[5][14]->naissance();tableau[3][15]->naissance();tableau[7][15]->naissance();
-
     tableau[4][16]->naissance();tableau[5][16]->naissance();tableau[6][16]->naissance();tableau[5][17]->naissance();
-
     tableau[2][20]->naissance();tableau[2][21]->naissance();
     tableau[3][20]->naissance();tableau[3][21]->naissance();
     tableau[4][20]->naissance();tableau[4][21]->naissance();
-
     tableau[1][22]->naissance();tableau[5][22]->naissance();
-
     tableau[0][24]->naissance();tableau[1][24]->naissance();tableau[5][24]->naissance();tableau[6][24]->naissance();
-
     tableau[2][34]->naissance();tableau[3][34]->naissance();tableau[2][35]->naissance();tableau[3][35]->naissance();
 }
 
 void MainWindow::moulingen()
 {
-    moulin(10,10);
-    moulin(10,25);
-    moulin(10,40);
-    moulin(25,10);
-    moulin(25,25);
-    moulin(25,40);
+    moulin(5,5);
+    moulin(5,20);
+    moulin(5,35);
+    moulin(5,50);
+
+    moulin(20,5);
+    moulin(20,20);
+    moulin(20,35);
+    moulin(20,50);
+
+    moulin(35,5);
+    moulin(35,20);
+    moulin(35,35);
+    moulin(35,50);
 }
 
 void MainWindow::moulin(int deb_i,int deb_j)
@@ -214,5 +216,4 @@ void MainWindow::moulin(int deb_i,int deb_j)
     tableau[deb_i+8][deb_j+2]->mort();
     tableau[deb_i+6][deb_j+7]->mort();
     tableau[deb_i+6][deb_j+8]->mort();
-
 }
