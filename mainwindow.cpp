@@ -10,11 +10,11 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
 
-    taille_i=40;
-    taille_j=80;
+    taille_i=20;
+    taille_j=60;
 
     ui->setupUi(this);
-    this->resize(taille_j*20+2,taille_i*20);
+    this->resize(taille_j*20+2,taille_i*22);
 
     it=new QPushButton("Itération",this);
     it->move(0,taille_i*20);
